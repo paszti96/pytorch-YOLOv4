@@ -23,9 +23,9 @@ Cfg.cfgfile = os.path.join(_BASE_DIR, 'cfg', 'yolov4.cfg')
 
 Cfg.batch = 64
 Cfg.subdivisions = 16
-Cfg.width = 608
-Cfg.height = 608
-Cfg.channels = 3
+Cfg.width = 416
+Cfg.height = 416
+Cfg.channels = 4
 Cfg.momentum = 0.949
 Cfg.decay = 0.0005
 Cfg.angle = 0
@@ -33,10 +33,10 @@ Cfg.saturation = 1.5
 Cfg.exposure = 1.5
 Cfg.hue = .1
 
-Cfg.learning_rate = 0.00261
+Cfg.learning_rate = 0.001
 Cfg.burn_in = 1000
-Cfg.max_batches = 500500
-Cfg.steps = [400000, 450000]
+Cfg.max_batches = 48000 #500500
+Cfg.steps = [38400, 43200] #[400000, 450000]
 Cfg.policy = Cfg.steps
 Cfg.scales = .1, .1
 
@@ -44,8 +44,8 @@ Cfg.cutmix = 0
 Cfg.mosaic = 1
 
 Cfg.letter_box = 0
-Cfg.jitter = 0.2
-Cfg.classes = 80
+Cfg.jitter = 0.3
+Cfg.classes = 24
 Cfg.track = 0
 Cfg.w = Cfg.width
 Cfg.h = Cfg.height

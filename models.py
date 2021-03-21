@@ -480,7 +480,7 @@ if __name__ == "__main__":
     if use_cuda:
         model.cuda()
 
-    img = cv2.imread(imgfile)
+    img = cv2.imread(imgfile,flags=cv2.IMREAD_UNCHANGED)
 
     # Inference input size is 416*416 does not mean training size is the same
     # Training size could be 608*608 or even other sizes
@@ -488,7 +488,7 @@ if __name__ == "__main__":
     #   Hight in {320, 416, 512, 608, ... 320 + 96 * n}
     #   Width in {320, 416, 512, 608, ... 320 + 96 * m}
     sized = cv2.resize(img, (width, height))
-    sized = cv2.cvtColor(sized, cv2.COLOR_BGR2RGB)
+    sized = cv2.cvtColor(sized, cv2.COLOR_BGRA2RGBA)
 
     from tool.utils import load_class_names, plot_boxes_cv2
     from tool.torch_utils import do_detect

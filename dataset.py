@@ -118,9 +118,9 @@ def image_data_augmentation(mat, w, h, pleft, ptop, swidth, sheight, flip, dhue,
         if (src_rect[0] == 0 and src_rect[1] == 0 and src_rect[2] == img.shape[0] and src_rect[3] == img.shape[1]):
             sized = cv2.resize(img, (w, h), cv2.INTER_LINEAR)
         else:
-            cropped = np.zeros([sheight, swidth, 3])
+            cropped = np.zeros([sheight, swidth, 4])
             cropped[:, :, ] = np.mean(img, axis=(0, 1))
-
+            #todo: check if its correct
             cropped[dst_rect[1]:dst_rect[3], dst_rect[0]:dst_rect[2]] = \
                 img[new_src_rect[1]:new_src_rect[3], new_src_rect[0]:new_src_rect[2]]
 
@@ -293,10 +293,10 @@ class Yolo_dataset(Dataset):
                 img_path = random.choice(list(self.truth.keys()))
                 bboxes = np.array(self.truth.get(img_path), dtype=np.float)
                 img_path = os.path.join(self.cfg.dataset_dir, img_path)
-            img = cv2.imread(img_path)
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            img = cv2.imread(img_path, flags=cv2.IMREAD_UNCHANGED)
             if img is None:
                 continue
+            img = cv2.cvtColor(img, cv2.COLOR_BGRA2RGBA)
             oh, ow, oc = img.shape
             dh, dw, dc = np.array(np.array([oh, ow, oc]) * self.cfg.jitter, dtype=np.int)
 
@@ -391,9 +391,9 @@ class Yolo_dataset(Dataset):
         """
         img_path = self.imgs[index]
         bboxes_with_cls_id = np.array(self.truth.get(img_path), dtype=np.float)
-        img = cv2.imread(os.path.join(self.cfg.dataset_dir, img_path))
+        img = cv2.imread(os.path.join(self.cfg.dataset_dir, img_path),flags=cv2.IMREAD_UNCHANGED)
         # img_height, img_width = img.shape[:2]
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        img = cv2.cvtColor(img, cv2.COLOR_BGRA2RGBA)
         # img = cv2.resize(img, (self.cfg.w, self.cfg.h))
         # img = torch.from_numpy(img.transpose(2, 0, 1)).float().div(255.0).unsqueeze(0)
         num_objs = len(bboxes_with_cls_id)
